@@ -1,0 +1,76 @@
+<html lang="en" class="js-focus-visible" data-js-focus-visible="">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Fish Market</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="../static/css/main.css">
+      <script src="https://code.jquery.com/jquery-2.2.1.min.js" crossorigin="anonymous"></script> 
+   </head>
+   <body data-new-gr-c-s-check-loaded="14.1015.0" data-gr-ext-installed="" cz-shortcut-listen="true" style="">
+      <div class="backdrop"></div>
+      <header class="main-header">
+         <button id="side-menu-toggle">Menu</button> 
+         <nav class="main-header__nav">
+            <center style=" margin: auto 669px; color: white; "> Welcome to the Prediction World!</center>
+         </nav>
+      </header>
+      <main>
+         <div class="grid">
+            <article class="card product-item">
+               <header class="card__header">
+                  <h1 class="product__title">Fish species prediction</h1>
+               </header>
+               <div class="card__content">
+                  <p class="product__description">Please enter the values</p>
+               </div>
+               <div class="card__actions">
+<!--                  <form action="/predict_file" id="classify" method="POST" enctype="multipart/form-data"> -->
+                  <form action="{{ url_for('predict')}}" id="classify" method="POST" enctype="multipart/form-data"> 
+		        <input type="text" name="weight" placeholder="Weight" required="required" class="">
+			<input type="text" name="length1" placeholder="Length_1" required="required" class="">
+			<input type="text" name="length2" placeholder="Length_2" required="required" class=""> 
+			<input type="text" name="length3" placeholder="Length_3" required="required" class="">
+			<input type="text" name="height" placeholder="Height" required="required" class="">
+			<input type="text" name="width" placeholder="Width" required="required" class="">
+			<button class="btn" type="submit">Predict</button> 
+		  </form>
+               </div>
+               <div class="card__content" id="result"> </div>
+            </article>
+         </div>
+      </main>
+	<script> 
+	$(document).ready(function() {
+    $("#classify").on("submit", function(e) {
+        e.preventDefault();
+        var fd = new FormData();
+        fd.append("weight", $("input[name=weight]").val());
+        fd.append("length1", $("input[name=length1]").val());
+        fd.append("length2", $("input[name=length2]").val());
+        fd.append("length3", $("input[name=length3]").val());
+        fd.append("height", $("input[name=height]").val());
+        fd.append("width", $("input[name=width]").val());
+        $.ajax({
+            url: "/predict",
+            contentType: false,
+            processData: false,
+            data: fd,
+            type: "POST",
+            success: function(data) {
+		console.log(data);
+                $("#result").html(data);
+            },
+            error: function(XMLHttpRequest, textStatus) {
+                $("#result").html(`<p style="color: red" class="product__description">Some error</p>`);
+            }
+        })
+    })
+})
+	</script> 
+   </body>
+</html>
