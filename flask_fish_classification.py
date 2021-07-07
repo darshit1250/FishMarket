@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 app = Flask(__name__)
-pickle_in = open('C:/Users/baps/Downloads/Darshit/Durham College Docs/Sem 2/AI IN ENTERPRISE/Lab#4/Final/fish_class.pkl','rb')
+pickle_in = open('fish_class.pkl','rb')
 classifier = pickle.load(pickle_in)
 
 @app.route("/")
